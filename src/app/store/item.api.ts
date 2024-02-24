@@ -13,6 +13,7 @@ export const itemApi = createApi({
   reducerPath: "api/items",
   baseQuery: fetchBaseQuery({
     baseUrl: api.serverURL,
+    referrerPolicy: "unsafe-url",
     prepareHeaders: (headers, { getState }) => {
       headers.set("Access-Control-Allow-Origin", "*");
       headers.set("X-Auth", md5Hash);
