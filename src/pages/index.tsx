@@ -60,8 +60,12 @@ export default function Home() {
 
   useEffect(() => {
     if (isFilterSubmit) {
-      setIdSubmit(false);
-      getId();
+      const filter = {
+        action: "filter",
+        params: { price: 17500 },
+      };
+      setFilterSubmit(false);
+      getIds(filter); // Fix: Replace setIdSubmit with setFilterSubmit
     }
   }, [isFilterSubmit]);
 
@@ -115,7 +119,7 @@ export default function Home() {
         {filterDiv ? (
           <div className=" border-solids border-1 border-indigo-600 w-full">
             <div>
-              <p>Цена</p>
+              <p>цена</p>
               <input
                 type="number"
                 id="textInput"
