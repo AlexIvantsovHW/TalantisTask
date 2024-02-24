@@ -6,11 +6,13 @@ export type ItemProps = {
   brand: string | null;
   product: string;
   price: number;
+  el: number;
 };
 
-const Item = ({ id, brand, product, price }: ItemProps) => {
+const Item = ({ id, brand, product, price, el }: ItemProps) => {
   return (
     <tr className={style.itemRow}>
+      <td className={style.itemCell}>{el}</td>
       <td className={style.itemCell}>
         <p>{id}</p>
       </td>

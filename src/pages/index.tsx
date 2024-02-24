@@ -1,13 +1,13 @@
 import { Inter } from "next/font/google";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import Button from "@/shared/ui/Button/Button.component";
 import Item from "@/shared/ui/Item/Item.component";
 import { useGetIdsMutation } from "@/app/store/item.api";
 import IsLoaderOrError from "@/shared/components/isLoaderOrError/isLoaderOrError";
-//import style from "../shared/ui/Item/Item.module.css";
 import s from "../styles/Main.module.css";
 import { SlArrowLeftCircle, SlArrowRightCircle } from "react-icons/sl";
 import { BsFillCloudDownloadFill, BsFilterSquareFill } from "react-icons/bs";
+import { removeDuplicates } from "./../shared/functions/uniqueId";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
@@ -39,6 +39,7 @@ export default function Home() {
 
     getId();
   }, [getIds, page]);
+  console.log(itemData?.result);
 
   useEffect(() => {
     const handleGetItems = async () => {
@@ -124,6 +125,7 @@ export default function Home() {
           <table className={s.stickyTable}>
             <thead>
               <tr>
+                <th>№</th>
                 <th>ID</th>
                 <th>Product</th>
                 <th>Brand</th>
@@ -131,14 +133,17 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {itemData?.result.map((e: any, id: any) => (
-                <Item
-                  id={e.id}
-                  product={e.product}
-                  brand={e.brand}
-                  price={e.price}
-                />
-              ))}
+              {itemData
+                ? removeDuplicates(itemData.result).map((e: any, id: any) => (
+                    <Item
+                      id={e.id}
+                      product={e.product}
+                      brand={e.brand}
+                      price={e.price}
+                      el={id + 1}
+                    />
+                  ))
+                : null}
             </tbody>
           </table>
         </div>
@@ -160,7 +165,6 @@ export default function Home() {
             </div>
           </div>
         ) : null}
-        <div className="border-solids border-top-2 border-indigo-600 w-full h-[50px] flex justify-around"></div>
       </div>
     </main>
   );
