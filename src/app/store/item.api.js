@@ -13,7 +13,11 @@ export const itemApi = createApi({
   reducerPath: "api/items",
   baseQuery: fetchBaseQuery({
     baseUrl: api.serverURL,
-    referrerPolicy: "unsafe-url",
+    fetchFn: async (url, options) => {
+      const response = await fetch(url, { ...options, mode: "no-cors" });
+      // Возвращаем пустой объект, поскольку с режимом 'no-cors' не получится получить содержимое ответа
+      return {};
+    },
     prepareHeaders: (headers, { getState }) => {
       headers.set("Access-Control-Allow-Origin", "*");
       headers.set("X-Auth", md5Hash);
