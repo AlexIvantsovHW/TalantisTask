@@ -31,3 +31,15 @@ body {
     text-wrap: balance;
   }
 }
+.overflow-auto::-webkit-scrollbar {
+  width: 12px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+}
+
+.overflow-auto::-webkit-scrollbar-track {
+  background-color: #eee;
+}

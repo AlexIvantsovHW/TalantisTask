@@ -1,8 +1,6 @@
+import { handleRefresh } from "@/shared/functions/Reload";
 import { Spinner } from "@/shared/ui/Spinner/Spinner";
-import { Inter } from "next/font/google";
 import { IoReloadCircle } from "react-icons/io5";
-
-const inter = Inter({ subsets: ["latin"] });
 
 type Props = {
   isIdsLoading: boolean;
@@ -16,22 +14,28 @@ const IsLoaderOrError = ({
   isIdsError,
   isItemError,
 }: Props) => {
-  const handleRefresh = () => {
-    window.location.reload();
-  };
+  isIdsError || isItemError ? console.log(isIdsError || isItemError) : null;
   return isIdsLoading || isItemLoading ? (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between `}
+      className={`bg-dark w-full min-h-screen d-flex justify-content-center align-items-center`}
     >
-      <div className="w-[100px] h-[100px]">Is Loading</div>
+      <div className="w-[100px] h-[100px]">{<Spinner />}</div>
     </main>
   ) : isIdsError || isItemError ? (
-    <main className={`flex min-h-screen w-full items-center justify-center `}>
+    <main
+      className={`bg-dark w-full min-h-screen d-flex justify-content-center align-items-center `}
+    >
       <div className="w-[100px] h-[100px]">
         <button onClick={handleRefresh}>
           <div className=" flex flex-col gap-20 align-center justify-center">
-            <h1 className="font-bold">Ошибка</h1>{" "}
-            <IoReloadCircle style={{ width: "40px", height: "40px" }} />
+            <h1 className="font-bold text-white">Ошибка</h1>{" "}
+            <button
+              className={
+                "btn btn-dark d-inline-block p-3 d-flex justify-content-center align-items-center"
+              }
+            >
+              <IoReloadCircle style={{ width: "40px", height: "40px" }} />
+            </button>
           </div>
         </button>
       </div>

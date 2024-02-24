@@ -1,18 +1,22 @@
 import { Inter } from "next/font/google";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import Item from "@/shared/ui/Item/Item.component";
+import React, { useEffect, useState } from "react";
 import { useGetIdsMutation } from "@/app/store/item.api";
 import IsLoaderOrError from "@/shared/components/isLoaderOrError/isLoaderOrError";
 import s from "../styles/Main.module.css";
-import { SlArrowLeftCircle, SlArrowRightCircle } from "react-icons/sl";
-import { BsFillCloudDownloadFill, BsFilterSquareFill } from "react-icons/bs";
-import { removeDuplicates } from "./../shared/functions/uniqueId";
+import { Table } from "@/shared/components/Table/table.component";
+import { Pagination } from "@/shared/components/pagination/Pagination.component";
+import InputPriceComponent from "@/shared/components/Input/InputPrice.component";
+import InputProduct from "@/shared/components/Input/InputProduct.component";
+import InputBrand from "@/shared/components/Input/InputBrand.component";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [filterDiv, setFilterDiv] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<number>();
+  const [inputPrice, setInputPrice] = useState<number>();
+  const [inputProduct, setInputProduct] = useState<string>();
+  const [inputBrand, setInputBrand] = useState<string>();
   const [page, setPage] = useState<number>(0);
   const [
     getIds,
@@ -23,6 +27,8 @@ export default function Home() {
     { data: itemData, isLoading: isItemLoading, isError: isItemError },
   ] = useGetIdsMutation();
   const [isFilterSubmit, setFilterSubmit] = useState<boolean>(false);
+  const [isFilterProduct, setFilterProduct] = useState<boolean>(false);
+  const [isFilterBrand, setFilterBrand] = useState<boolean>(false);
 
   useEffect(() => {
     const getId = async () => {
@@ -39,7 +45,6 @@ export default function Home() {
 
     getId();
   }, [getIds, page]);
-  console.log(itemData?.result);
 
   useEffect(() => {
     const handleGetItems = async () => {
@@ -48,7 +53,6 @@ export default function Home() {
           action: "get_items",
           params: { ids: idsData.result },
         };
-
         try {
           await getItems(ids);
         } catch (error) {
@@ -56,7 +60,6 @@ export default function Home() {
         }
       }
     };
-
     if (idsData) {
       handleGetItems();
     }
@@ -66,27 +69,35 @@ export default function Home() {
     if (isFilterSubmit) {
       const filter = {
         action: "filter",
-        params: { price: inputValue },
+        params: { price: inputPrice },
       };
       setFilterSubmit(false);
       getIds(filter);
     }
   }, [isFilterSubmit]);
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(Number(event.target.value));
-  };
+  useEffect(() => {
+    if (isFilterProduct) {
+      const filter = {
+        action: "filter",
+        params: { product: inputProduct },
+      };
+      setFilterProduct(false);
+      getIds(filter);
+    }
+  }, [isFilterProduct]);
+  useEffect(() => {
+    if (isFilterBrand) {
+      const filter = {
+        action: "filter",
+        params: { brand: inputBrand },
+      };
+      setFilterBrand(false);
+      getIds(filter);
+    }
+  }, [isFilterBrand]);
 
   function openFilter() {
     setFilterDiv(!filterDiv);
-  }
-
-  function nextPage() {
-    setPage(page + 50);
-  }
-
-  function previousPage() {
-    setPage(Math.max(0, page - 50));
   }
 
   if (isIdsLoading || isItemLoading || isIdsError || isItemError) {
@@ -102,67 +113,42 @@ export default function Home() {
 
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className} bg-dark`}
     >
-      <div className="flex flex-col items-stretch border-solids border-2 border-indigo-600 w-full h-96 ">
+      <h1 className="text-white">Valantis task assessment</h1>
+      <div className="flex flex-col items-stretch border-solids  w-full h-96 ">
         <div className={s.header}>
-          {page === 0 ? null : (
-            <button onClick={previousPage} className={s.btnS}>
-              <p>{page - 50}</p>
-              <SlArrowLeftCircle />
-            </button>
-          )}
-
-          <p className="font-bold">{page}</p>
-          <button onClick={nextPage} className={s.btnS}>
-            <SlArrowRightCircle /> {page + 50}
-          </button>
-          <button onClick={openFilter}>
-            <BsFilterSquareFill />
-          </button>
+          <Pagination
+            page={page}
+            setFilterDiv={setFilterDiv}
+            filterDiv={filterDiv}
+            setPage={setPage}
+          />
         </div>
-        <div className="w-full h-full  gap-[20px] overflow-y-auto">
-          <table className={s.stickyTable}>
-            <thead>
-              <tr>
-                <th>№</th>
-                <th>ID</th>
-                <th>Product</th>
-                <th>Brand</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {itemData
-                ? removeDuplicates(itemData.result).map((e: any, id: any) => (
-                    <Item
-                      id={e.id}
-                      product={e.product}
-                      brand={e.brand}
-                      price={e.price}
-                      el={id + 1}
-                    />
-                  ))
-                : null}
-            </tbody>
-          </table>
-        </div>
+        {itemData?.result ? <Table itemData={itemData.result} /> : null}
         {filterDiv ? (
-          <div className=" border-solids border-1 border-indigo-600 w-full">
-            <div className={s.price}>
-              <p>Цена</p>
-              <input
-                type="number"
-                id="textInput"
-                name="textInput"
-                value={inputValue}
-                onChange={handleInputChange}
-                placeholder="Price"
-              />
-              <button className={s.btn} onClick={() => setFilterSubmit(true)}>
-                <BsFillCloudDownloadFill />{" "}
-              </button>
-            </div>
+          <div className={s.filterBlock}>
+            <InputPriceComponent
+              inputPrice={inputPrice}
+              setInputPrice={setInputPrice}
+              setFilterSubmit={setFilterSubmit}
+              type={"number"}
+              price={"price"}
+            />
+            <InputProduct
+              inputProduct={inputProduct}
+              setInputProduct={setInputProduct}
+              setFilterProduct={setFilterProduct}
+              type={"string"}
+              product={"product"}
+            />
+            <InputBrand
+              inputBrand={inputBrand}
+              setInputBrand={setInputBrand}
+              setFilterBrand={setFilterBrand}
+              type={"string"}
+              brand={"brand"}
+            />
           </div>
         ) : null}
       </div>

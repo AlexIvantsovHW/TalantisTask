@@ -7,7 +7,7 @@ type Item = {
 
 export function removeDuplicates(arr: Item[]): Item[] {
   const uniqueIds = new Set();
-  return arr.filter((item) => {
+  return arr?.filter((item) => {
     if (!uniqueIds.has(item.id)) {
       uniqueIds.add(item.id);
       return true;

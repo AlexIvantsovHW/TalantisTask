@@ -3,7 +3,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid 0.5px gray;
   width: 100%;
   height: fit-content;
   gap: 20px;
@@ -14,16 +13,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid 0.5px gray;
   width: fit-content;
   height: fit-content;
   gap: 5px;
 }
+.download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
 
 /* TABLE */
+.body {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
 .itemRow {
   width: 100%;
-  border: 0.5px solid #0000007c;
   background-color: #3f83f854;
 }
 
@@ -37,6 +45,7 @@
   top: 0;
   background-color: #fff;
   z-index: 1;
+  overflow-y: auto;
 }
 
 .stickyTable th {
@@ -49,21 +58,26 @@
   font-style: italic;
 }
 /* -------------------FILTER---------------- */
-
+.filterBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
 /* ---Price--- */
 .price {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: solid 0.5px gray;
   gap: 15px;
 }
 .price p {
   font-weight: bold;
-}
-.btn::hover {
-  background-color: rgb(88, 113, 172);
-  border: solid 0.5px gray;
-  box-shadow: #3f83f8;
 }
