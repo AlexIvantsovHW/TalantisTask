@@ -17,14 +17,16 @@ const IsLoaderOrError = ({
 }: Props) => {
   return isIdsLoading || isItemLoading ? (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between `}
     >
-      <div className="w-[100px] h-[100px]">
-        <Spinner />
-      </div>
+      <div className="w-[100px] h-[100px]">Is Loading</div>
     </main>
   ) : isIdsError || isItemError ? (
-    <div>Error</div>
+    <main
+      className={`flex min-h-screen flex-col items-center justify-between `}
+    >
+      <div className="w-[100px] h-[100px]">Ошибка</div>
+    </main>
   ) : (
     false
   );

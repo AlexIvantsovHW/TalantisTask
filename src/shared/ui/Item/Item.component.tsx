@@ -1,3 +1,5 @@
+import React from "react";
+import style from "../../../styles/Main.module.css";
 
 export type ItemProps = {
   id: number | string;
@@ -8,14 +10,14 @@ export type ItemProps = {
 
 const Item = ({ id, brand, product, price }: ItemProps) => {
   return (
-    <>
-      <div className="border-solids border-2 border-indigo-600 w-[90%] h-50px flex flex-row gap-[20px]">
-        <div>{id}</div>
-        <div>{product}</div>
-        <div>{brand}</div>
-        <div>{price}</div>
-      </div>
-    </>
+    <tr className={style.itemRow}>
+      <td className={style.itemCell}>
+        <p>{id}</p>
+      </td>
+      <td className={style.itemCell}>{product}</td>
+      <td className={style.itemCell}>{brand}</td>
+      <td className={style.itemCell}>{price}</td>
+    </tr>
   );
 };
 

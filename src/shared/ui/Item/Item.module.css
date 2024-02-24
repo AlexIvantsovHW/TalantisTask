@@ -1,0 +1,21 @@
+.itemRow {
+  border: 2px solid #3f83f8; /* Измените цвет границы по вашему вкусу */
+  background-color: #ff0800; /* Измените цвет фона по вашему вкусу */
+}
+
+.itemCell {
+  padding: 10px; /* Измените отступы по вашему вкусу */
+}
+.stickyTable {
+  position: sticky;
+  top: 0;
+  background-color: #fff; /* Цвет фона, который вы хотите использовать */
+  z-index: 1;
+}
+
+.stickyTable th {
+  position: sticky;
+  top: 0;
+  background-color: #fff; /* Цвет фона, который вы хотите использовать */
+  z-index: 2;
+}
