@@ -14,7 +14,6 @@ const IsLoaderOrError = ({
   isIdsError,
   isItemError,
 }: Props) => {
-  isIdsError || isItemError ? console.log(isIdsError || isItemError) : null;
   return isIdsLoading || isItemLoading ? (
     <main
       className={`bg-dark w-full min-h-screen d-flex justify-content-center align-items-center`}

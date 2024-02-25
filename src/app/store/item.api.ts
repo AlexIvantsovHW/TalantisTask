@@ -7,8 +7,6 @@ const timestamp = new Date().toISOString().split("T")[0].replace(/-/g, "");
 
 const md5Hash = MD5(`${password}_${timestamp}`).toString(enc.Hex);
 
-console.log(md5Hash);
-
 export const itemApi = createApi({
   reducerPath: "api/items",
   baseQuery: fetchBaseQuery({
@@ -26,6 +24,17 @@ export const itemApi = createApi({
         method: "POST",
         body: getIds,
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data) {
+            localStorage.setItem("Data", JSON.stringify(data));
+          }
+        } catch (e) {
+          console.error(e);
+          localStorage.setItem("apiError", JSON.stringify(e));
+        }
+      },
     }),
     getItem: build.mutation({
       query: (getItem) => ({
@@ -33,6 +42,17 @@ export const itemApi = createApi({
         method: "POST",
         body: getItem,
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data) {
+            localStorage.setItem("Data", JSON.stringify(data));
+          }
+        } catch (e) {
+          console.error(e);
+          localStorage.setItem("apiError", JSON.stringify(e));
+        }
+      },
     }),
   }),
 });
