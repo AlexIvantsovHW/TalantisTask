@@ -27,7 +27,7 @@
     "**/*.tsx",
     "src/app/store/slices/Item.slice.js",
     ".next/types/**/*.ts",
-    "src/app/store/item.api.js"
+    "src/app/store/item.api.ts"
   ],
   "exclude": ["node_modules"]
 }

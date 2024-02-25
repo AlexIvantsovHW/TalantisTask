@@ -1,3 +1,3 @@
 export class api {
-  static serverURL = "http://api.valantis.store:40000/";
+  static serverURL = "https://api.valantis.store:41000/";
 }
